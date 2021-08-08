@@ -1,0 +1,10 @@
+io\mhxs\test\entity\UserEntity.class
+io\mhxs\test\config\DynamicDataSourceConfig.class
+io\mhxs\test\mapper\UserMapper.class
+io\mhxs\test\SpringbootApplication.class
+io\mhxs\test\config\DynamicDataSource.class
+io\mhxs\test\config\DataSourceNames.class
+io\mhxs\test\config\DB.class
+io\mhxs\test\service\UserService.class
+io\mhxs\test\service\UserServiceImpl.class
+io\mhxs\test\aop\DataSourceAspect.class
