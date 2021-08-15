@@ -1,0 +1,27 @@
+
+schemaName: replica_query_db
+
+dataSourceCommon:
+ username: root
+ password: 123456
+ connectionTimeoutMilliseconds: 30000
+ idleTimeoutMilliseconds: 60000
+ maxLifetimeMilliseconds: 1800000
+ maxPoolSize: 10
+ minPoolSize: 1
+ maintenanceIntervalMilliseconds: 30000
+
+dataSources:
+ primary_ds:
+   url: jdbc:mysql://127.0.0.1:3306/test_01?serverTimezone=UTC&useSSL=false
+ replica_ds_0:
+   url: jdbc:mysql://127.0.0.1:3306/test_02?serverTimezone=UTC&useSSL=false
+
+rules:
+- !REPLICA_QUERY
+ dataSources:
+   pr_ds:
+     name: pr_ds
+     primaryDataSourceName: primary_ds
+     replicaDataSourceNames:
+       - replica_ds_0

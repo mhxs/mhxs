@@ -1,0 +1,55 @@
+
+schemaName: sharding_db
+
+dataSourceCommon:
+ username: root
+ password: 123456
+ connectionTimeoutMilliseconds: 30000
+ idleTimeoutMilliseconds: 60000
+ maxLifetimeMilliseconds: 1800000
+ maxPoolSize: 5
+ minPoolSize: 1
+ maintenanceIntervalMilliseconds: 30000
+
+dataSources:
+ ds_0:
+   url: jdbc:mysql://127.0.0.1:3306/test_01?serverTimezone=UTC&useSSL=false
+ ds_1:
+   url: jdbc:mysql://127.0.0.1:3306/test_02?serverTimezone=UTC&useSSL=false
+
+rules:
+- !SHARDING
+ tables:
+   tb_sys_user:
+     actualDataNodes: ds_${0..1}.tb_sys_user_0${1..2}
+     tableStrategy:
+       standard:
+         shardingColumn: user_id
+         shardingAlgorithmName: t_user_inline
+     keyGenerateStrategy:
+       column: user_id
+       keyGeneratorName: snowflake
+ bindingTables:
+   - tb_sys_user
+ defaultDatabaseStrategy:
+   standard:
+     shardingColumn: user_id
+     shardingAlgorithmName: database_inline
+ defaultTableStrategy:
+   none:
+ 
+ shardingAlgorithms:
+   database_inline:
+     type: INLINE
+     props:
+       algorithm-expression: ds_${user_id % 2}
+   t_user_inline:
+     type: INLINE
+     props:
+       algorithm-expression: tb_sys_user_0${user_id % 2}
+ 
+ keyGenerators:
+   snowflake:
+     type: SNOWFLAKE
+     props:
+       worker-id: 123
